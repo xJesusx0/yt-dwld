@@ -1,0 +1,29 @@
+{
+  "name": "yt-dwld",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node --env-file=.env dist/index.js",
+    "dev": "node --env-file=.env --watch src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint:fix": "oxlint --fix"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "oxlint": "^1.92.0",
+    "prettier": "^3.9.10",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.8.1",
+    "youtubei.js": "^18.3.0"
+  }
+}
