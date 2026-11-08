@@ -6,7 +6,7 @@ Busca con [youtubei.js](https://github.com/LuanRT/YouTube.js), te muestra los re
 
 ## Requisitos
 
-- **Node.js 24+** (ejecuta TypeScript directamente y usa `--env-file`).
+- **Node.js 24+** (ejecuta TypeScript directamente).
 - **yt-dlp**, actualizado. Las versiones viejas fallan con `Please sign in` o `Signature extraction failed`; instala el binario oficial desde las [releases](https://github.com/yt-dlp/yt-dlp/releases) o con `pipx install -U yt-dlp`.
 - **ffmpeg**, que `yt-dlp` necesita para convertir a MP3.
 - Un runtime de JavaScript para `yt-dlp` (Node sirve) si tu versión lo exige para resolver la firma de YouTube.
@@ -14,31 +14,41 @@ Busca con [youtubei.js](https://github.com/LuanRT/YouTube.js), te muestra los re
 ## Instalación
 
 ```bash
-npm install
-cp .env.example .env
+git clone <repo> && cd yt-dwld
+bash scripts/install.sh   # o: npm run install:cli
 ```
 
-Edita `.env` y pega tu cookie de YouTube Music:
+El script instala dependencias, compila a `dist/`, registra el comando global `yt-dwld` (`npm link`) y crea `~/.config/yt-dwld/config.json` si no existe. Si cambias el código, vuelve a ejecutar `npm run build`.
 
-```env
-YT_COOKIE="VISITOR_INFO1_LIVE=...; SID=...; ..."
-```
+Después edita la configuración (ver abajo) y pega tu cookie de YouTube Music. Para obtenerla: abre <https://music.youtube.com> con tu sesión iniciada, abre las herramientas de desarrollador, ve a Network, elige cualquier petición y copia el valor de la cabecera `Cookie`.
 
-Para obtenerla: abre <https://music.youtube.com> con tu sesión iniciada, abre las herramientas de desarrollador, ve a Network, elige cualquier petición y copia el valor de la cabecera `Cookie`.
-
-> `.env` está en `.gitignore`. La cookie da acceso a tu cuenta de Google, así que no la subas al repositorio ni la compartas.
+> El `config.json` se crea con permisos `600` porque contiene la cookie, que da acceso a tu cuenta de Google. No lo compartas ni lo subas a ningún repositorio.
 
 ## Uso
 
 ```bash
-npm run dev
+yt-dwld        # o, en desarrollo: npm run dev
 ```
 
 1. Escribe lo que quieres buscar.
 2. Elige una canción con ↑/↓ y Enter.
-3. El MP3 se guarda en `music/<título>.mp3` (la carpeta se crea sola).
+3. El MP3 se guarda en la carpeta `outputDir` de la configuración (por defecto `~/Music`).
 
 Con Ctrl+C sales en cualquier paso.
+
+### Configuración
+
+En la primera descarga se crea `~/.config/yt-dwld/config.json` (o `$XDG_CONFIG_HOME/yt-dwld/config.json`):
+
+```json
+{
+  "outputDir": "~/Music",
+  "cookie": ""
+}
+```
+
+- `outputDir`: carpeta de destino. Acepta `~` y se crea si no existe.
+- `cookie`: cookie de YouTube Music. La variable de entorno `YT_COOKIE` tiene prioridad si está definida.
 
 ### Producción
 
@@ -66,6 +76,7 @@ npm start
 src/
 ├── index.ts       # Menú interactivo (entrada del programa)
 ├── search.ts      # Búsqueda en YouTube Music y mapeo de resultados
+├── config.ts      # Lee/crea ~/.config/yt-dwld/config.json
 ├── download.ts    # Descarga y conversión a MP3 con yt-dlp
 ├── music-type.ts  # Tipos de resultado y filtro (solo canciones)
 └── types.ts       # Tipos compartidos

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { cancel, intro, isCancel, log, outro, select, spinner, text } from '@clack/prompts';
 import { download } from './download.ts';
 import { search } from './search.ts';

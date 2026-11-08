@@ -1,9 +1,8 @@
 import { spawn } from 'child_process';
-
-// Carpeta de destino, relativa a donde ejecutas el programa. yt-dlp la crea si no existe.
-const MUSIC_DIR = 'music';
+import { loadConfig } from './config.ts';
 
 export async function download(videoId: string) {
+  const { outputDir } = loadConfig();
   const ytdlp = spawn(
     'yt-dlp',
     [
@@ -13,7 +12,7 @@ export async function download(videoId: string) {
       '--audio-quality',
       '0',
       '-P',
-      MUSIC_DIR,
+      outputDir,
       '-o',
       '%(title)s.%(ext)s',
       `https://music.youtube.com/watch?v=${videoId}`,

@@ -8,13 +8,14 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node --env-file=.env dist/index.js",
-    "dev": "node --env-file=.env --watch src/index.ts",
+    "start": "dist/index.js",
+    "dev": "--watch src/index.ts",
     "typecheck": "tsc --noEmit",
     "lint": "oxlint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint:fix": "oxlint --fix"
+    "lint:fix": "oxlint --fix",
+    "install:cli": "bash scripts/install.sh"
   },
   "devDependencies": {
     "@types/node": "^24.19.2",
@@ -25,5 +26,11 @@
   "dependencies": {
     "@clack/prompts": "^1.8.1",
     "youtubei.js": "^18.3.0"
-  }
+  },
+  "bin": {
+    "yt-dwld": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ]
 }

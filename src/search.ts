@@ -1,12 +1,13 @@
 import { Innertube, YTNodes, Helpers, Log } from 'youtubei.js';
 import { isAllowedType, normalizeMusicType } from './music-type.ts';
+import { loadConfig } from './config.ts';
 import type { MusicSearchResultItem } from './types.ts';
 
 // Silencia los avisos del parser (p. ej. "TextBadge not found!")
 Log.setLevel(Log.Level.NONE);
 
 const innertube = await Innertube.create({
-  cookie: process.env.YT_COOKIE,
+  cookie: loadConfig().cookie,
 });
 const count = {
   cardShelf: 0,
