@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 import { runWebServer } from './api.ts';
 import { runCli } from './cli.ts';
 
